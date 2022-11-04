@@ -27,7 +27,7 @@ class ObstacleHandler():
                 
                 self.obstacles.pop()
                 game.lives -= 1
-                pygame.time.delay(10)
+                pygame.time.delay(200)
                 
             if obstacle.image_rect.x < -obstacle.image_rect.width:
                 self.obstacles.pop()
