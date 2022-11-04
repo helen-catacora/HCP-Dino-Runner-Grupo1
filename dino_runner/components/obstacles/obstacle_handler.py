@@ -8,6 +8,7 @@ from dino_runner.components.obstacles.bird import Bird
 class ObstacleHandler():
     def __init__(self):
         self.obstacles = []
+
         
     def update(self,game):
         if len(self.obstacles) == 0:
@@ -22,9 +23,11 @@ class ObstacleHandler():
             obstacle.update(game.game_speed)
 
             if game.dinosaur.image_rect.colliderect(obstacle.image_rect):
-                pygame.time.delay(500)
+                game.dinosaur.dino_dead = True
+                
                 self.obstacles.pop()
                 game.lives -= 1
+                pygame.time.delay(10)
                 
             if obstacle.image_rect.x < -obstacle.image_rect.width:
                 self.obstacles.pop()

@@ -25,12 +25,9 @@ class Dinosaur(Sprite):
         self.dino_jump = False
         self.dino_run = True
         self.dino_duck = False
-        self.dino_dead = dead
+        self.dino_dead = False
         self.dino_velocity = self.INTIAL_VELOCITY
        
-
-
-
     def update(self, dino_event): 
         if self.dino_jump:
             self.jump()
@@ -38,56 +35,64 @@ class Dinosaur(Sprite):
             self.run()
         if self.dino_duck:
             self.duck()
-        if self.dino_dead: 
-            self.dead()
 
-        if dino_event[pygame.K_UP]:
+        if dino_event[pygame.K_UP] or dino_event[pygame.K_w] or dino_event[pygame.K_SPACE]:
             self.dino_run = False
             self.dino_jump = True
             self.dino_duck = False
             self.dino_dead = False
                 
-        elif dino_event[pygame.K_DOWN]:
+        elif dino_event[pygame.K_DOWN] or dino_event[pygame.K_s]:
             self.dino_run = False
             self.dino_jump = False
             self.dino_duck = True
             self.dino_dead = False
-        
-        elif dino_event[pygame.K_RIGHT]:
+
+        elif self.dino_dead:
             self.dino_run = False
             self.dino_jump = False
             self.dino_duck = False
-            self.dino_dead = True
         
         elif not self.dino_jump:
             self.dino_run = True
             self.dino_jump = False
             self.dino_duck = False
             self.dino_dead = False
-        
-        
+
 
         if self.step > self.MAX_STEP:
             self.step = self.INTIAL_STEP
 
     def run(self):
-        self.image = RUNNING[0]  if self.step <= 10 else RUNNING[1]
+        if self.dino_dead:
+            self.image = DEAD
+        else:
+            self.image = RUNNING[0]  if self.step <= 10 else RUNNING[1]
         self.image_rect = self.image.get_rect()
         self.image_rect.x = self.DINO_X_POS
         self.image_rect.y = self.DINO_Y_POS
         self.step += 1
+        self.dino_dead = False
+        
 
     def duck(self):
-        self.image = DUCKING[0]  if self.step <= 10 else DUCKING[1]
+        if self.dino_dead:
+            self.image = DEAD
+            pygame.time.delay(100)
+        else:
+            self.image = DUCKING[0]  if self.step <= 10 else DUCKING[1]
         self.image_rect = self.image.get_rect()
         self.image_rect.x = self.DINO_X_POS
         self.image_rect.y = self.DINO_Y_POS + 35
         self.step += 1
-        pass
+        self.dino_dead = False
 
     def jump(self):
-    
-        self.image= JUMPING 
+        
+        if self.dino_dead:
+            self.image = DEAD
+        else:
+            self.image= JUMPING 
         if self.dino_jump:
             self.image_rect.y -= self.dino_velocity * self.ACELERATION
             self.dino_velocity -= self.REDUCE_VELOCITY
@@ -96,29 +101,9 @@ class Dinosaur(Sprite):
             self.dino_jump = False
             self.dino_velocity = self.INTIAL_VELOCITY
             self.dino_run = True
-
-    def dead(self):
-        self.image = DEAD
-        self.image_rect = self.image.get_rect()
-        self.image_rect.x = self.DINO_X_POS
-        self.image_rect.y = self.DINO_Y_POS
-
-        pass
-        
-
-
+        self.dino_dead = False
 
         '''
-        prueba 2
-        self.image= JUMPING 
-        if self.image_rect.y < 100:
-            self.image_rect.y += 10
-        elif self.dino_jump:
-            self.image_rect.y -= 10
-        if self.image_rect.y == self.DINO_Y_POS:
-            self.dino_jump = False
-            self.dino_run = True
-
 
         prueba1
         self.image = JUMPING
@@ -133,5 +118,6 @@ class Dinosaur(Sprite):
 
     def draw(self, screen):
         screen.blit(self.image,(self.image_rect.x,self.image_rect.y))
+        
     
 
