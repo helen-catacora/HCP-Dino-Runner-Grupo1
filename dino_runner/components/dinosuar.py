@@ -1,7 +1,7 @@
 
 import pygame
 from pygame.sprite import Sprite
-from dino_runner.utils.constants import RUNNING,JUMPING,DUCKING
+from dino_runner.utils.constants import RUNNING,JUMPING,DUCKING,DEAD
 
 
 class Dinosaur(Sprite):
@@ -16,7 +16,7 @@ class Dinosaur(Sprite):
 
 
 
-    def __init__(self):
+    def __init__(self,dead = False):
         self.image = RUNNING[0]
         self.image_rect = self.image.get_rect()
         self.image_rect.x = self.DINO_X_POS
@@ -25,7 +25,9 @@ class Dinosaur(Sprite):
         self.dino_jump = False
         self.dino_run = True
         self.dino_duck = False
+        self.dino_dead = dead
         self.dino_velocity = self.INTIAL_VELOCITY
+       
 
 
 
@@ -36,21 +38,34 @@ class Dinosaur(Sprite):
             self.run()
         if self.dino_duck:
             self.duck()
+        if self.dino_dead: 
+            self.dead()
 
         if dino_event[pygame.K_UP]:
             self.dino_run = False
             self.dino_jump = True
             self.dino_duck = False
+            self.dino_dead = False
                 
         elif dino_event[pygame.K_DOWN]:
             self.dino_run = False
             self.dino_jump = False
             self.dino_duck = True
+            self.dino_dead = False
+        
+        elif dino_event[pygame.K_RIGHT]:
+            self.dino_run = False
+            self.dino_jump = False
+            self.dino_duck = False
+            self.dino_dead = True
         
         elif not self.dino_jump:
             self.dino_run = True
             self.dino_jump = False
             self.dino_duck = False
+            self.dino_dead = False
+        
+        
 
         if self.step > self.MAX_STEP:
             self.step = self.INTIAL_STEP
@@ -81,6 +96,14 @@ class Dinosaur(Sprite):
             self.dino_jump = False
             self.dino_velocity = self.INTIAL_VELOCITY
             self.dino_run = True
+
+    def dead(self):
+        self.image = DEAD
+        self.image_rect = self.image.get_rect()
+        self.image_rect.x = self.DINO_X_POS
+        self.image_rect.y = self.DINO_Y_POS
+
+        pass
         
 
 
@@ -107,9 +130,6 @@ class Dinosaur(Sprite):
                 self.image_rect.y += 20
             self.dino_jump = False
             self.dino_run = True'''
-
-        
-
 
     def draw(self, screen):
         screen.blit(self.image,(self.image_rect.x,self.image_rect.y))

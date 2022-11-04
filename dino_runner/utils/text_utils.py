@@ -5,9 +5,9 @@ import pygame
 FONT_STYLE = 'freesansbold.ttf'
 BLACK_RGB = (0,0,0)
 
-def get_text_element(message, pos_x = SCREEN_WIDTH//2 , pos_y =SCREEN_HEIGHT//2, font_size = 30):
+def get_text_element(message, pos_x = SCREEN_WIDTH//2 , pos_y =SCREEN_HEIGHT//2, font_size = 30,color =BLACK_RGB):
     font = pygame.font.Font(FONT_STYLE,font_size)
-    text = font.render(message,True , BLACK_RGB)
+    text = font.render(message,True , color)
     text_rect = text.get_rect()
     text_rect.center = (pos_x , pos_y)
 
