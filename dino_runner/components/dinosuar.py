@@ -10,8 +10,8 @@ class Dinosaur(Sprite):
     DINO_Y_POS = 300
     INTIAL_STEP = 0
     MAX_STEP = 20
-    ACELERATION = 4
-    INTIAL_VELOCITY = 8
+    ACELERATION = 3
+    INTIAL_VELOCITY = 10
     REDUCE_VELOCITY = 0.9
 
 
@@ -102,19 +102,6 @@ class Dinosaur(Sprite):
             self.dino_velocity = self.INTIAL_VELOCITY
             self.dino_run = True
         self.dino_dead = False
-
-        '''
-
-        prueba1
-        self.image = JUMPING
-        if self.dino_jump:
-            self.image_rect.y -= 20
-            print("1. ",self.image_rect.y)
-        if self.image_rect.y < 100:
-            while self.image_rect.y != self.DINO_Y_POS:
-                self.image_rect.y += 20
-            self.dino_jump = False
-            self.dino_run = True'''
 
     def draw(self, screen):
         screen.blit(self.image,(self.image_rect.x,self.image_rect.y))

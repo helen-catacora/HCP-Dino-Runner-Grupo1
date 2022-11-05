@@ -65,6 +65,7 @@ class Game:
         self.points = 0
         self.lives = self.MAX_LIFES
         self.game_speed = self.INITIAL_SPEED
+        self.day = 0
         pass
 
     def events(self):
@@ -92,12 +93,6 @@ class Game:
         white = (255, 255, 255)
         black = (0,0,0)
         self.clock.tick(FPS)
-        '''
-        if self.points >= 200 and self.points <= 300:
-            self.day = 1
-            self.screen.fill((0, 0,0))
-        else:
-            self.screen.fill((255, 255, 255))'''
         #self.points % 100 == 0 and self.points % 300 != 0
         if (self.points>=300 and self.points % 300 == 0) or self.day == 1:
             self.day = 1
@@ -137,7 +132,7 @@ class Game:
             pass
         points_text , points_rect = text_utils.get_text_element(message,1000,50,color= text_color )
         self.screen.blit(points_text,points_rect)
-        message_life = "LIVES = "
+        message_life = "   LIVES = "
         points_text , points_rect = text_utils.get_text_element(message_life,50,20,25, color= text_color )
         self.screen.blit(points_text,points_rect)
 
